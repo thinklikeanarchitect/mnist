@@ -4,8 +4,16 @@ from PIL import Image
 import numpy as np
 import io
 
+# Flask app nesnesi oluşturuluyor
 app = Flask(__name__)
+
+# Model yükleniyor
 model = load_model('mnist_cnn_model.h5')
+
+# Rota tanımlamaları
+@app.route('/')
+def home():
+    return "Welcome to the MNIST prediction API!"
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -22,5 +30,6 @@ def predict():
     prediction = model.predict(image).argmax()
     return jsonify({'prediction': int(prediction)})
 
+# Ana blok
 if __name__ == '__main__':
     app.run(debug=True)
